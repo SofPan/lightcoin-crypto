@@ -4,7 +4,6 @@ class Account {
 
   constructor(username) {
     this.username = username;
-    this.balance = 0;
     this.transactions = [];
   }
 
@@ -13,11 +12,12 @@ class Account {
     this.transactions;
   }
 
-  getBalance() {
+  get balance() {
+    let balance = 0;
     for (const transaction of this.transactions) {
-      this.balance += transaction.amount;
+      balance += transaction.value;
     }
-    return this.balance;
+    return balance;
   }
 }
 
@@ -28,10 +28,10 @@ class Transaction {
   }
 
   commit() {
-    if (!this.isAllowed()) {
-      return;
+    if (this.isAllowed() === false) {
+      console.log("NOT ALLOWED: ", this);
+      return false;
     } else {
-      this.amount = this.value;
       this.time = new Date();
       this.account.addTransaction(this);
     }
@@ -44,7 +44,7 @@ class Withdrawal extends Transaction {
   }
 
   isAllowed() {
-    return this.account.balance + this.value >= 0 ? true : false;
+    return this.account.balance - this.amount >= 0;
   }
 
 }
@@ -83,5 +83,4 @@ t3.commit();
 const t4 = new Withdrawal(20.00, myAccount);
 t4.commit();
 
-console.log("getting my balance", myAccount.getBalance());
-// console.log(t1.isAllowed());
+console.log("getting my balance", myAccount.balance);
