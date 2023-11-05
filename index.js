@@ -1,29 +1,38 @@
 let balance = 500.00;
 
+class Account {
+
+  constructor(username) {
+    this.username = username;
+    this.balance = 0;
+  }
+}
 class Withdrawal {
 
-  constructor(amount) {
+  constructor(amount, account) {
     this.amount = amount;
+    this.account = account;
   }
 
   commit() {
-    balance -= this.amount;
+    this.account.balance -= this.amount;
   }
 
 }
 
 class Deposit {
 
-  constructor(amount) {
+  constructor(amount, account) {
     this.amount = amount;
+    this.account = account;
   }
 
   commit() {
-    balance += this.amount;
+    this.account.balance += this.amount;
   }
 }
 
-
+const myAccount = new Account("snow-patrol");
 
 
 // DRIVER CODE BELOW
